@@ -3,6 +3,22 @@ import {ApiError} from "../utils/ApiError.js"
 import {User} from "../models/user.model.js"
 import {uploadOnCloudinary} from "../utils/Cloudinary.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
+
+const genrateAccessTokenAndRefreshToken = async (userId)=>{
+  try {
+   const user = await User.findOne(userId)
+   const accessToken = user.genrateAccessToken()
+   const refreshToken = user.genrateRefreshToken()
+    user.refreshToken=refreshToken
+    await user.save({validateBeforSave: false})
+    return {accessToken,refreshToken}
+
+   
+  } catch (error) {
+      throw new ApiError(500,"something went wrong while genrateing access and refresh token")
+  }
+}
+
  const registerUser = asyncHandler(async (req,res)=>{
  
 
@@ -44,6 +60,38 @@ import { ApiResponse } from "../utils/ApiResponse.js"
       throw new ApiError(500, "something went wrong while rsgistering user")
    }
    return res.status(201).json(new ApiResponse(200,createdUser,"user register successfully"))
+ })
+
+
+ const loginUser =asyncHandler(async (req,res)=>{
+   const {email,username,password}=req.body
+   if(!username || !email)
+   {
+      throw new ApiError(400,"email or username is required")
+   }
+  const user =await User.findOne({$or: [{username},{email}]})
+  if(!user)
+  {
+   throw new ApiError(404,"user does not found")
+  }
+  const isValidPassword = await user.isPasswordCorrect(password)
+  if(!isValidPassword)
+  {
+   throw new ApiError(401,"password incorrect")
+  }
+ const {accessToken,refreshToken}= await genrateAccessTokenAndRefreshToken(user._id)
+ const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
+ const options ={
+   httpOnly: true,
+   secure: true
+ }
+ return res.status(200).cookie("accessToken",accessToken, options).cookie("refreshToken",refreshToken,options).json(
+   new ApiResponse(200,{
+      user:loggedInUser, accessToken, refreshToken
+   },
+   "user Logged in succesFully"
+   )
+ )
  })
 
  export default registerUser
