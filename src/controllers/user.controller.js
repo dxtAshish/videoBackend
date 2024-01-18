@@ -13,7 +13,7 @@ import { ApiResponse } from "../utils/ApiResponse.js"
     {
        throw new ApiError(400,"all fields are required")
     }
-    const existedUser = User.findOne({$or:[{username},{email}]})
+    const existedUser =await User.findOne({$or:[{username},{email}]})
     if(existedUser){
       throw new ApiError(409,"user with username or eamil already exist")
     }
@@ -32,11 +32,11 @@ import { ApiResponse } from "../utils/ApiResponse.js"
    }
    const user = await User.create({
       fullName,
-      username:username.toLowecase(),
+      username: username.toLowerCase(),
       email,
       password,
       avatar:avatar.url,
-      coverImage:coverImage.url || ""
+      coverImage:coverImage?.url || ""
    })
    const createdUser =await User.findOne(user._id).select("-password -refreshToken")
    if(!createdUser)

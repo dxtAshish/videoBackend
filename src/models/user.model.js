@@ -30,6 +30,10 @@ const userSchema = new Schema(
         type:String,
         required : true,
        },
+       coverImage:{
+        type:String,
+        required : true,
+       },
        watchHistory:[{
         type:Schema.Types.ObjectId,
         ref:"Video"
