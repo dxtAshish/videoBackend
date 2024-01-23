@@ -236,8 +236,8 @@ const updateAccountDetails = asyncHandler(async(req,res)=>{
  return res.status(200).json(new ApiResponse(200,user,"cover image update successfully"))
  })
  
-
+//add comment
 
 export { registerUser, loginUser, logoutUser, refreshAccessToken,
    changeCurrentPassword, getCurrentUser,updateAccountDetails, 
-   updateUserAvatar,updateUserCoverImage };
+   updateUserAvatar,updateUserCoverImage  };
