@@ -28,8 +28,4 @@ router.route("/register").post(
     router.route("/c/:username").get(jwtVerify, getUserChannelProfile)
     router.route("/history").get(jwtVerify,getWatchHistory)
 
-
-
-
-
 export default router
