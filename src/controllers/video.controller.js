@@ -72,8 +72,9 @@ const publishAVideo = asyncHandler(async (req, res) => {
     {
         throw new ApiError(400,"description is missing")
     }
+    //fetching video and thumbnail 
     const videoFile = await uploadOnCloudinary(videoLocalPath);
-    const thumbnail= await uploadOnCloudinary(thumbnailLocalPath)
+    const thumbnail= await uploadOnCloudinary(thumbnailLocalPath);
     if(!videoFile)
     {
         throw new ApiError(400, "video not found")
