@@ -10,44 +10,8 @@ import {uploadOnCloudinary} from "../utils/cloudinary.js"
 const getAllVideos = asyncHandler(async (req, res) => {
     const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query
     //TODO: get all videos based on query, sort, pagination
-
-       // Build the filter object based on query parameters
-       const filter = {};
-       if (query) {
-           // You may customize the fields you want to search for in the 'Video' model
-           filter.$or = [
-               { title: { $regex: query, $options: "i" } },
-               { description: { $regex: query, $options: "i" } },
-           ];
-       }
-       if (userId) {
-           filter.user = userId;
-       }
-   
-       // Build the sort object based on sortBy and sortType parameters
-       const sort = {};
-       if (sortBy && sortType) {
-           sort[sortBy] = sortType === "desc" ? -1 : 1;
-       }
-   
-       // Paginate the results using the skip and limit parameters
-       const skip = (page - 1) * limit;
-   
-       // Execute the Mongoose query to fetch videos
-       const videos = await Video.find(filter)
-           .sort(sort)
-           .skip(skip)
-           .limit(parseInt(limit))
-           .populate("user", "username"); // Populate the 'user' field with the 'username' property
-   
-       // Check if videos are found
-       if (!videos || videos.length === 0) {
-           throw new ApiError(404, "No videos found");
-       }
-   
-       // Return the videos in the response
-       res.status(200).json(new ApiResponse(200, "Videos fetched successfully", { videos, page, limit }));
-   
+   let pipeline=[]
+      
 })
 
 const publishAVideo = asyncHandler(async (req, res) => {
