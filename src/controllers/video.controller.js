@@ -152,7 +152,7 @@ const updateVideo = asyncHandler(async (req, res) => {
     if(!thumbmail) {
         throw new ApiError(500, "There is some problem in uploading thumbnail")
     }
-    const oldThumbnailUrl = video?.thumbnail;
+  
 
 
     const updatedVideo = await Video.findByIdAndUpdate(
@@ -167,7 +167,7 @@ const updateVideo = asyncHandler(async (req, res) => {
         {new: true}
     )
 
-    await destroyOnCloudinary(oldThumbnailUrl);
+  
 
     return res
     .status(200)
@@ -180,6 +180,7 @@ const updateVideo = asyncHandler(async (req, res) => {
 const deleteVideo = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     //TODO: delete video
+    
 })
 
 const togglePublishStatus = asyncHandler(async (req, res) => {
