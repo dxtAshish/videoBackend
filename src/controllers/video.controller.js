@@ -10,7 +10,63 @@ import {uploadOnCloudinary} from "../utils/cloudinary.js"
 const getAllVideos = asyncHandler(async (req, res) => {
     const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query
     //TODO: get all videos based on query, sort, pagination
-   let pipeline=[]
+    page = isNaN(page) ? 1 : Number(page);
+    limit = isNaN(limit) ? 10 : Number(limit);
+
+    if(page <= 0){
+        page = 1;
+    }
+    if(limit <= 0){
+        limit = 10;
+    }
+
+    let pipeline = []
+
+    if(isValidObjectId(userId)) {
+        pipeline.push({
+            $match: {
+                owner: new mongoose.Types.ObjectId(userId)
+            }
+        })
+        console.log(pipeline);
+    } else {
+        pipeline.push({
+            $match: {
+                $or: [
+                    {title: {$regex: query, $options: 'i'}},
+                    {description: {$regex: query, $options: 'i'}}
+                ]
+            }
+        })
+    }
+
+    pipeline.push(
+
+        {
+            $project: {
+                title: 1,
+                videoFile: 1,
+                thumbnail: 1
+            }
+        },
+
+        {
+            $sort: {
+                [sortBy]:  sortType === 'asc' ? 1 : -1
+            }
+        },
+
+        { $skip: ( (page-1) * limit ) },
+
+        { $limit: limit }
+    )
+
+    const videos = await Video.aggregate(pipeline)
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, videos, "Videos fetched successfully"))
+
       
 })
 
@@ -67,12 +123,57 @@ const publishAVideo = asyncHandler(async (req, res) => {
 
 const getVideoById = asyncHandler(async (req, res) => {
     const { videoId } = req.params
-    //TODO: get video by id
+    const video= Video.findById(videoId);
+    if(!video)
+    {
+        throw new ApiError(400,"no video found by id");
+    }
+    res.status(200).json(new ApiResponse(200,video,"video fetched successfully "))
 })
 
 const updateVideo = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     //TODO: update video details like title, description, thumbnail
+    const {title,description}=req.body;
+    const thumbnailLocalPath = req.file?.path
+    if(!videoId?.trim())
+    {
+        throw new ApiError(400,"no video id found");
+    }
+    const video=Video.findById(videoId);
+    if(!video) {
+        throw new ApiError(400, "No videos exists")
+    }
+     
+    if( !title || !description || !thumbnailLocalPath) {
+        throw new ApiError(400, "Please give title or description or thumbnail to change")
+    }
+    const thumbmail = await uploadOnCloudinary(thumbnailLocalPath)
+    if(!thumbmail) {
+        throw new ApiError(500, "There is some problem in uploading thumbnail")
+    }
+    const oldThumbnailUrl = video?.thumbnail;
+
+
+    const updatedVideo = await Video.findByIdAndUpdate(
+        videoId,
+        {
+            $set: {
+                title,
+                description,
+                thumbnail: thumbmail.url
+            }
+        },
+        {new: true}
+    )
+
+    await destroyOnCloudinary(oldThumbnailUrl);
+
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200, updatedVideo, "Videos details updated")
+    )
 
 })
 
