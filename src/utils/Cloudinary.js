@@ -21,10 +21,10 @@ const uploadOnCloudinary =async (localFilePath)=>{
 }
 const deleteByCloudinary =async (cloudinaryUrl)=>{
     try {
-        if(!cloudinaryUrl)
-        {
-            const response=cloudinary.uploader.destroy(cloudinaryUrl)
-        }
+        if(!cloudinaryUrl) return null;
+
+         const response=cloudinary.uploader.destroy(cloudinaryUrl)
+        
     } catch (error) {
         
     }
