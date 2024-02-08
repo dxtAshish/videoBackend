@@ -7,21 +7,111 @@ import {asyncHandler} from "../utils/asyncHandler.js"
 
 const createPlaylist = asyncHandler(async (req, res) => {
     const {name, description} = req.body
-    if(!name || !description)
+    if(!name.trim() || !description.trim())
     {
         throw new ApiError(400,"name and description are required");
     }
-   
+    let playlist = await Playlist.create({
+        name: name.trim(),
+        description: description.trim(),
+        owner: req.user?._id
+    })
+    if(!playlist) {
+        throw new ApiError(400, "Something went wrong while creating playlist")
+    }
+    return res
+    .status(201)
+    .json(new ApiResponse(201, playlist, "Playlist created successfully"))
     //TODO: create playlist
 })
 
 const getUserPlaylists = asyncHandler(async (req, res) => {
     const {userId} = req.params
+    if(!isValidObjectId(userId))
+    {
+        throw new ApiError(400,"user id is not valid")
+    }
+
+const playlist = await PlayList.aggregate([
+    {
+    $match : {
+        owner: new mongoose.Types.ObjectId(userId)
+    },
+},
+{
+    $lookup:{
+        from:"users",
+        localField:"owner",
+        foreignField:"_if",
+        as:"owner",
+        pipeline:[
+            {
+                $project:{
+                    _id:0,
+                    username:1,
+                    fullName:1,
+                    avatar:1
+                }
+            }
+        ]
+    }
+},
+{
+    $addFields: {
+        owner: {
+            $arrayElemAt: ["$owner", 0]
+        }
+    }
+}
+])
+if(!playlist) {
+    throw new ApiError(400, "Something went wrong while fetching playlists")
+}
+
+const message = (playlist.length === 0)?"User has no playlists":"Playlists fetched successfully"
+
+return res
+.status(200)
+.json(new ApiResponse(200, playlist, message))
     //TODO: get user playlists
 })
 
 const getPlaylistById = asyncHandler(async (req, res) => {
     const {playlistId} = req.params
+    if(!isValidObjectId(playlistId))
+    {
+        throw new ApiError(400,"playList id is not found")
+    }
+    const playlist = await PlayList.aggregate([{
+        $match:{
+            _id: new mongoose.Types.ObjectId(playlistId)
+        }
+    },
+{
+    $lookup:{
+        from:"users",
+        localField:"owner",
+        foreignField:"_id",
+        as:"owner",
+
+        pipeline:[{
+            $project:{
+                _id:0,
+                username:1,
+                fullName:1,
+                avatar:1
+            }
+        }]
+    },
+   
+},
+{
+    $addFields:{
+        playlistOwner: {
+            $arrayElemAt: ["$owner", 0]
+        }
+    }
+}])
     //TODO: get playlist by id
 })
 
@@ -39,6 +129,11 @@ const addVideoToPlaylist = asyncHandler(async (req, res) => {
 
 const removeVideoFromPlaylist = asyncHandler(async (req, res) => {
     const {playlistId, videoId} = req.params
+    if(isValidObjectId(playlistId))
+    {
+        throw new ApiError(400,"playlistId not Found in removing video")
+    }
+   
     // TODO: remove video from playlist
 
 })
