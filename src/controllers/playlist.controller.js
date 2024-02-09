@@ -3,7 +3,7 @@ import {PlayList, Playlist} from "../models/playlist.model.js"
 import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
-
+import { Video } from "../models/video.model.js"
 
 const createPlaylist = asyncHandler(async (req, res) => {
     const {name, description} = req.body
@@ -121,10 +121,23 @@ const addVideoToPlaylist = asyncHandler(async (req, res) => {
     {
           throw new ApiError(400,"playlist is not present")
     }
-    if(!isValidObjectId(userId))
+    if(!isValidObjectId(videoId))
     {
-          throw new ApiError(400,"user is not present")
+          throw new ApiError(400,"video is not present")
     }
+    const playlist = PlayList.findById(playlistId)
+
+    const video =Video.findById(videoId)
+    const videos =playlist.videos;
+    videos.forEach((videoItem)=>{
+        if(videoItem.toString===video.tostring)
+        {
+            throw new ApiError(400,"video is already existed")
+        }
+    });
+    const updatePlayList =videos.push(videoId);
+    return res.status(200).json(200,updatePlayList,"video added successfully")
+
 })
 
 const removeVideoFromPlaylist = asyncHandler(async (req, res) => {
@@ -133,7 +146,14 @@ const removeVideoFromPlaylist = asyncHandler(async (req, res) => {
     {
         throw new ApiError(400,"playlistId not Found in removing video")
     }
-   
+   const playlist = PlayList.findById(playlistId)
+   const videos=playlist.videos;
+   videos.forEach(item=>{
+    if(item.toString===videoId)
+    {
+
+    }
+   })
     // TODO: remove video from playlist
 
 })
@@ -182,7 +202,7 @@ const updatePlaylist = asyncHandler(async (req, res) => {
     },{
         new:true
     })
-
+   return res.status(200).json(200,newPlayList,"play list has been updated")
 })
 
 export {
