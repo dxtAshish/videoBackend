@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 import {Comment} from "../models/comment.model.js"
+import { Video } from "../models/video.model.js";
 import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
@@ -8,8 +9,48 @@ const getVideoComments = asyncHandler(async (req, res) => {
     //TODO: get all comments for a video
     const {videoId} = req.params
     const {page = 1, limit = 10} = req.query
+    const video =Video.findById(videoId)
+    if(!isValidObjectId(videoId) || !video) {
+        throw new ApiError(400, "Either video id is invalid or No video exists")
+    }
+    const allComments = await Video.aggregate([
+        {
+            $match: {
+                _id: new mongoose.Types.ObjectId(videoId)
+            }
+        },
 
+        {
+            $lookup: {
+                from: "comments",
+                localField: "_id",
+                foreignField: "video",
+                as: "allVideoComments",
+                pipeline: [
+                    {
+                        $project: {
+                            _id: 1,
+                            content: 1,
+                            owner: 1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $project: {
+                allVideoComments: 1,
+                _id: 0
+            }
+        }
+    ])
+    if(!allComments) {
+        throw new ApiError(400, "Something went wrong while getting all comments of video")
+    }
 
+    return res
+    .status(200)
+    .json(new ApiResponse(200, allComments, "All comments fetched succesfully"))
 })
 
 const addComment = asyncHandler(async (req, res) => {

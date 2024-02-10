@@ -142,18 +142,72 @@ const addVideoToPlaylist = asyncHandler(async (req, res) => {
 
 const removeVideoFromPlaylist = asyncHandler(async (req, res) => {
     const {playlistId, videoId} = req.params
-    if(isValidObjectId(playlistId))
-    {
-        throw new ApiError(400,"playlistId not Found in removing video")
+    if(!playlistId?.trim() || !isValidObjectId(playlistId)) {
+        throw new ApiError(400, "Valid playlistId is required")
     }
-   const playlist = PlayList.findById(playlistId)
-   const videos=playlist.videos;
-   videos.forEach(item=>{
-    if(item.toString===videoId)
-    {
 
+    if(!videoId?.trim() || !isValidObjectId(videoId)) {
+        throw new ApiError(400, "Valid videoId is required")
     }
-   })
+
+    let video = await Video.findById(videoId?.trim())
+
+    if(!video) {
+        throw new ApiError(400, "Video not found")
+    }
+
+    let playlist = await Playlist.findById(playlistId?.trim())
+
+    if(!playlist) {
+        throw new ApiError(400, "Playlist not found")
+    }
+
+    // check video exists in playlist or not
+    const isExist = await Playlist.aggregate([
+        {
+            $match: {
+                _id: new mongoose.Types.ObjectId(playlistId?.trim())
+            }
+        },
+        {
+            $match: {
+                videos: new mongoose.Types.ObjectId(videoId?.trim())
+            }
+        }
+    ])
+
+    if(isExist.toString().length === 0) {
+        return res
+        .status(200)
+        .json(new ApiResponse(200, {}, "Video does not exists in playlist"))
+    }
+
+    let newVideosArray = playlist.videos.filter((video) => {
+        return video.toString() != videoId.toString()
+    })
+
+    playlist.videos = newVideosArray
+
+    // OR
+    // const updatedPlaylist = await Playlist.findByIdAndUpdate(
+    //     playlistId?.trim(),
+    //     {
+    //         $set: {
+    //             videos: newVideosArray
+    //         }
+    //     },
+    //     {new: true}
+    // )
+
+    const response = await playlist.save({validateBeforeSave: false})
+
+    if(!response) {
+        throw new ApiError(400, "Something went wrong while removing video from playlist")
+    }
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, updatedPlaylist, "Video removed from playlist"))
     // TODO: remove video from playlist
 
 })
