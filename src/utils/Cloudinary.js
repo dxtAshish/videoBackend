@@ -19,14 +19,28 @@ const uploadOnCloudinary =async (localFilePath)=>{
         return null;
     }
 }
-const deleteByCloudinary =async (cloudinaryUrl)=>{
-    try {
-        if(!cloudinaryUrl) return null;
+const destroyOnCloudinary = async (url, resourceType = "image") => {
 
-         const response=cloudinary.uploader.destroy(cloudinaryUrl)
-        
+    try {
+        if(!url) {
+            throw new ApiError(400, "Url is empty")
+        }
+
+        const publicId = extractPublicId(url)
+
+        // console.log("Url - ", url)
+        // console.log("Public Id - ", publicId);
+     
+        await cloudinary.uploader
+        .destroy(publicId, {resource_type: resourceType})
+        .then((result) => {
+            console.log(result);
+        });
+        return;
+
     } catch (error) {
-        
+        console.log("There is some problem in deleting data from cloudinary");
+        throw new ApiError(400, error)
     }
 }
-export {uploadOnCloudinary,deleteByCloudinary}
+export {uploadOnCloudinary,destroyOnCloudinary}
