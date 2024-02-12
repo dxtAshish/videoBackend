@@ -108,7 +108,7 @@ const deleteComment = asyncHandler(async (req, res) => {
         throw new ApiError(400,"unauthrized access")
     }
     const deleteComment=await comment.findByIdAndDelete(commentId)
-    return res.status(200).json(new ApiResponse(200,"comment deleted successfully"))
+    return res.status(200).json(new ApiResponse(200,deleteComment,"comment deleted successfully"))
 })
 
 export {
