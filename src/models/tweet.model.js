@@ -4,7 +4,7 @@ import mongoose, {Schema} from "mongoose";
         type: Schema.Types.ObjectId,
         ref:"User"
     },
-    contet:{
+    content:{
         type: String,
         required: true
     }

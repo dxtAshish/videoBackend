@@ -5,7 +5,8 @@ import {
     toggleVideoLike,
     toggleTweetLike,
 } from "../controllers/like.controller.js"
-import {jwtVerify} from "../middlewares/auth.middlware.js"
+import { jwtVerify } from "../middlewares/auth.middleware.js";
+
 
 const router = Router();
 router.use(jwtVerify); // Apply verifyJWT middleware to all routes in this file

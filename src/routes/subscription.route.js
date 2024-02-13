@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import { jwtVerify } from '../middlewares/auth.middlware.js';
+import { jwtVerify } from "../middlewares/auth.middleware.js";
+
 import {
     getSubscribedChannels,
     getUserChannelSubscribers, 

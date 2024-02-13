@@ -5,7 +5,8 @@ import {
     getVideoComments,
     updateComment,
 } from "../controllers/comment.controller.js"
-import {jwtVerify} from "../middlewares/auth.middlware.js"
+import { jwtVerify } from "../middlewares/auth.middleware.js";
+
 
 const router = Router();
 
