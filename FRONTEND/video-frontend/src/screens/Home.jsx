@@ -9,17 +9,39 @@ export const Home = () => {
   },
   {
     title:"this is  third video"
-  }]
+  },
+  {
+    title:"this is fourth video"
+  },
+  {
+    title:"this is fifth video"
+  },
+  {
+    title:"this is video"
+  },
+  {
+    title:"this is second video"
+  },
+  {
+    title:"this is  third video"
+  },
+  {
+    title:"this is fourth video"
+  },
+  {
+    title:"this is fifth video"
+  },
+]
   return (
-    <div>
-      {
-      videos.map((item,index)=>{
-        <Card title={item.title}/>
-        console.log(item.title)
-      })
-    }
-      <h1 className='text-3xl'>this is home</h1>
-      
+   
+       <div className="grid grid-cols-5 gap-4">
+      {videos.map((item, index) => (
+        
+        <Card key={index} title={item.title} />
+      ))}
     </div>
+      
+        
+      
   )
 }
