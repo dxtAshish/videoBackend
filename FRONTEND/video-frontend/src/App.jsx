@@ -5,7 +5,7 @@ import {
   Route,
  
 } from "react-router-dom";
-import Navbar from "./component/Navbar"
+// import Navbar from "./component/Navbar"
 import { Register } from './auth/Register'
 import { Card } from './component/Card'
 import { Home } from './screens/Home'
@@ -20,6 +20,10 @@ function App() {
     <Router>
       <Routes>
         <Route exact path='/' element={<Home/>}></Route>
+        <Route exact path='/tweet' element={<Tweet/>}></Route>
+        <Route exact path='/video' element={<VideoPlay/>}></Route>
+
+
     </Routes>
     </Router>
   )

@@ -14,7 +14,7 @@ export const Tweet = () => {
     content:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus corrupti"
   }]
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col gap-4 p-4'>
 {
   tweets.map((item,index)=>(
      <CardTweet key={index} content={item.content}/>

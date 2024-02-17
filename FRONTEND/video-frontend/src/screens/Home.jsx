@@ -32,12 +32,15 @@ export const Home = () => {
     title:"this is fifth video"
   },
 ]
+const openVideo =()=>{
+  
+}
   return (
    
        <div className="grid grid-cols-5 gap-4">
       {videos.map((item, index) => (
         
-        <Card key={index} title={item.title} />
+        <Card key={index} title={item.title} onclick={openVideo}/>
       ))}
     </div>
       

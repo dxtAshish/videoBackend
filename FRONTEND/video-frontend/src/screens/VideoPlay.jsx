@@ -36,7 +36,7 @@ export const VideoPlay = () => {
 ]
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col mt-4'>
     <div className='p-4'> 
       <ReactPlayer 
       controls={true} 
