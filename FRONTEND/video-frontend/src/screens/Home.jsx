@@ -1,5 +1,6 @@
 import React from 'react'
 import { Card } from '../component/Card'
+import vite from '/vite.svg'
 export const Home = () => {
   const videos=[{
     title:"this is video"
@@ -36,7 +37,10 @@ const openVideo =()=>{
   
 }
   return (
-   
+  <div>
+    <div className=' w-full mx-auto  bg-black h-[200px] justify-center items-center'>
+      <img src={vite} alt="" />
+    </div>
        <div className="grid grid-cols-5 gap-4">
       {videos.map((item, index) => (
         
@@ -44,7 +48,7 @@ const openVideo =()=>{
       ))}
     </div>
       
-        
+    </div>  
       
   )
 }

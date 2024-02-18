@@ -31,7 +31,7 @@ import { BsFillCartFill } from "react-icons/bs";
 import { TbTruckDelivery } from "react-icons/tb";
 import { FaWallet } from "react-icons/fa";
 import { MdFavorite, MdHelp } from "react-icons/md";
-import vite from "../../public/vite.svg"
+import vite from "/vite.svg"
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
@@ -41,7 +41,7 @@ const Navbar = () => {
     { icon: <TbTruckDelivery size={25} className="mr-4" />, text: "Home" ,link:"/"},
     { icon: <MdFavorite size={25} className="mr-4" />, text: "Tweet",link:"/tweet" },
     { icon: <FaWallet size={25} className="mr-4" />, text: "History",link:"/history"},
-    { icon: <MdHelp size={25} className="mr-4" />, text: "Help",link:"/help" },
+    { icon: <MdHelp size={25} className="mr-4" />, text: "Register",link:"/register" },
   ];
 
   return (
@@ -51,9 +51,9 @@ const Navbar = () => {
         <div onClick={() => setNav(!nav)} className="cursor-pointer">
           <AiOutlineMenu size={30} />
         </div>
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl px-2">
+      <Link to={'/'}> <h1 className="text-2xl sm:text-3xl lg:text-4xl px-2">
           play <span className="font-bold">VideoTweet</span>
-        </h1>
+        </h1></Link> 
         <div className="hidden lg:flex items-center bg-gray-200 rounded-full p-1 text-[14px]">
           <p className="bg-black text-white rounded-full p-2">video</p>
           <p className="p-2">write</p>
@@ -66,13 +66,13 @@ const Navbar = () => {
         <input
           className="bg-transparent p-2 w-full focus:outline-none"
           type="text"
-          placeholder="Search foods"
+          placeholder="Search videos"
         />
       </div>
-      {/* Cart button */}
-      <button className="bg-black text-white hidden md:flex justify-center items-center w-[50px] h-[50px] rounded-full border  border-black  ">
+      {/* Profile button */}
+      <Link to={'/profile'} className="bg-black text-white hidden md:flex justify-center items-center w-[50px] h-[50px] rounded-full border  border-black  ">
        <img src={vite} alt="" />
-      </button>
+      </Link>
 
       {/* Mobile Menu */}
       {/* Overlay */}
@@ -100,12 +100,12 @@ const Navbar = () => {
         </h2>
         <nav>
           <ul className="flex flex-col p-4 text-gray-800">
-            {menuItems.map(({ icon, text }, index) => {
+            {menuItems.map(({ icon, text,link }, index) => {
               return (
                 <div key={index} className=" py-4">
-                 <li className="text-xl flex cursor-pointer  w-[50%] rounded-full mx-auto p-2 hover:text-white hover:bg-black">
+                 <Link to={link} className="text-xl flex cursor-pointer  w-[50%] rounded-full mx-auto p-2 hover:text-white hover:bg-black">
                     {icon} {text}
-                  </li>
+                  </Link>
                 
                 </div>
               );
