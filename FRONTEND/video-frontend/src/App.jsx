@@ -13,7 +13,7 @@ import { CardTweet } from './component/CardTweet'
 import { Tweet } from './screens/Tweet'
 import { Profile } from './screens/Profile'
 import { VideoPlay } from './screens/VideoPlay'
-
+import { Login } from './auth/Login';
 function App() {
  
 
@@ -25,7 +25,8 @@ function App() {
         <Route exact path='/video' element={<VideoPlay/>}></Route>
         <Route exact path ='/profile' element={<Profile/>}></Route>
         <Route exact path ='/register' element={<Register/>}></Route>
-
+        <Route exact path ='/login' element={<Login/>}></Route>
+        
 
     </Routes>
   

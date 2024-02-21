@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import Navbar from './component/Navbar.jsx'
-import { store } from './app/store'
+import { store } from '../src/store/store.js'
 import { Provider } from 'react-redux'
 import {
   BrowserRouter as Router,

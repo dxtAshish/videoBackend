@@ -1,0 +1,7 @@
+.input {
+    @apply border border-gray-300 p-2 rounded-md w-full mb-4 focus:outline-none focus:border-blue-500;
+  }
+  
+  .btn {
+    @apply  text-white rounded-lg px-4 py-2 hover:bg-blue-700 focus:outline-none focus:bg-blue-700;
+  }
