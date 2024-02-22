@@ -13,7 +13,9 @@ import { CardTweet } from './component/CardTweet'
 import { Tweet } from './screens/Tweet'
 import { Profile } from './screens/Profile'
 import { VideoPlay } from './screens/VideoPlay'
-import { Login } from './auth/Login';
+import  Login  from './auth/Login';
+import AddVideo from './screens/AddVideo';
+import AddTweet from './screens/AddTweet';
 function App() {
  
 
@@ -26,6 +28,10 @@ function App() {
         <Route exact path ='/profile' element={<Profile/>}></Route>
         <Route exact path ='/register' element={<Register/>}></Route>
         <Route exact path ='/login' element={<Login/>}></Route>
+        <Route exact path ='/addVideo' element={<AddVideo/>}></Route>
+        <Route exact path ='/addTweet' element={<AddTweet/>}></Route>
+
+
         
 
     </Routes>
