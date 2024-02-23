@@ -6,9 +6,10 @@ import { store } from '../src/store/store.js'
 import { Provider } from 'react-redux'
 import {
   BrowserRouter as Router,
- 
- 
+
 } from "react-router-dom";
+
+
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(

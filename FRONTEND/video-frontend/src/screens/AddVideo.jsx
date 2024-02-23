@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 
 const AddVideoForm = () => {
   const [videoTitle, setVideoTitle] = useState("");
@@ -16,6 +17,10 @@ const AddVideoForm = () => {
       videoFile,
       thumbnail,
     });
+ useEffect(()=>{
+  axios.post(`${process.env.BACKEND_URL}/video`)
+ }).then((res)=>{})
+
   };
 
   return (
