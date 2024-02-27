@@ -14,7 +14,7 @@ import { Tweet } from './screens/Tweet'
 import { Profile } from './screens/Profile'
 import { VideoPlay } from './screens/VideoPlay'
 import  Login  from './auth/Login';
-import AddVideo from './screens/AddVideo';
+import {AddVideo} from './screens/AddVideo';
 import AddTweet from './screens/AddTweet';
 function App() {
  

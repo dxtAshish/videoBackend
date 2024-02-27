@@ -1,13 +1,29 @@
 import React from "react";
 import { useState } from "react";
+import axios from 'axios'
 import "./login.css";
 export const Register = () => {
-  const [fullname, setFullname] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const handleSubmit = () => {
-    alert(username);
+  const url =import.meta.env.VITE_BACKEND_URL
+  const [state,setState]=useState({
+    fullname:'',
+    username:'',
+    email:'',
+    password:'',
+    avatar:'',
+    coverImage:''
+  })
+  const handleChange=(e)=>{
+     const {name,value}=e.target;
+     setState({...state,[name]:value})
+  }
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(state);
+    axios.post(`${url}/api/v1/users/register`,state).then(Response=>{
+      console.log("form submitted successFully",Response)
+    }).catch(err=>{
+      console.log(err)
+    })
   };
   return (
     <div className="flex flex-col items-center justify-center gap-4 py-8">
@@ -25,8 +41,8 @@ export const Register = () => {
           className="input"
           placeholder="Enter your full name"
           name="fullname"
-          value={fullname}
-          onChange={(e) => setFullname(e.target.value)}
+          value={state.fullname}
+          onChange={handleChange}
         />
 
         <label for="username" className="text-gray-700">
@@ -38,8 +54,8 @@ export const Register = () => {
           className="input"
           placeholder="Enter your username"
           name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={state.username}
+          onChange={handleChange}
         />
 
         <label for="email" className="text-gray-700">
@@ -51,8 +67,8 @@ export const Register = () => {
           className="input"
           placeholder="Enter your email"
           name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={state.email}
+          onChange={handleChange}
         />
 
         <label for="password" className="text-gray-700">
@@ -64,14 +80,14 @@ export const Register = () => {
           className="input"
           placeholder="Enter your password"
           name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={state.password}
+          onChange={handleChange}
         />
 
         <label for="avatar" className="text-gray-700">
           Upload Avatar
         </label>
-        <input type="file" id="avatar" className="input" name="avatar" />
+        <input type="file" id="avatar" className="input" name="avatar" value={state.avatar} onChange={handleChange} />
 
         <label for="coverImage" className="text-gray-700">
           Upload Cover Image
@@ -81,6 +97,8 @@ export const Register = () => {
           id="coverImage"
           className="input"
           name="coverImage"
+          value={state.coverImage}
+          onChange={handleChange}
         />
 
         <button type="submit" className="btn bg-blue-600">
