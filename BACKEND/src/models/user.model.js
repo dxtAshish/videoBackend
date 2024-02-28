@@ -68,7 +68,7 @@ const userSchema = new Schema(
                 username:this.username,
                 email:this.email,
                 fullName:this.fullName
-            },
+            }, 
             process.env.ACCESS_TOKEN_SECRET,
             {
                 expiresIn:process.env.ACCESS_TOKEN_EXPIRY
