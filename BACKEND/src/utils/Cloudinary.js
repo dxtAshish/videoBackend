@@ -8,11 +8,21 @@ cloudinary.config({
 
 const uploadOnCloudinary =async (localFilePath)=>{
     try {
+        console.log("here 11")
         if(!localFilePath)return null; 
-     const response= cloudinary.uploader.upload(localFilePath,{
+        const response= cloudinary.uploader.upload(localFilePath,{
             resource_type: "auto"
+        }, (error, result) => {
+            if (error) {
+                console.error("Error uploading file:", error);
+                // Handle error appropriately, e.g., return null or throw an error
+            } else {
+                console.log("Upload successful:", result);
+                // Do something with the result, such as storing it in a database
+            }
         })
-        fs.unlink(localFilePath)
+        console.log("heer 16",response)
+        // fs.unlink(localFilePath)
         return response
     } catch (error) {
         fs.unlink(localFilePath)

@@ -22,6 +22,7 @@ const genrateAccessTokenAndRefreshToken = async (userId) => {
 };
 
 const registerUser = asyncHandler(async (req, res) => {
+  console.log("herere 25")
   const { fullName, username, email, password } = req.body;
   if (
     [fullName, username, email, password].some((field) => field?.trim() === "")
@@ -39,7 +40,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
   const avatar = await uploadOnCloudinary(avatarLocalPath);
   const coverImage = await uploadOnCloudinary(coverImageLocalPath);
-
+  console.log(avatar,coverImage,"here 43")
   if (!avatar) {
     throw new ApiError(400, "avatar file is required");
   }
