@@ -1,31 +1,67 @@
-import React, { useState } from 'react';
-
+import React, { useState } from "react";
+import Input from "./Input";
+import Button from "./Button";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 export const LoginComponent = () => {
-    const [formData, setFormData] = useState({
-        username: '',
-        password: ''
-    });
+    const navigate =useNavigate()
+  const [formData, setFormData] = useState({
+    username: "",
+    email:"",
+    password: "",
+  });
+  const { register, handleSubmit } = useForm();
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevData => ({
-            ...prevData,
-            [name]: value
-        }));
-    };
+    const onSubmit = (data) => {
+        setFormData({
+          username: data.username,
+          email: data.email,
+          password: data.password,
+        });
+        try {
+            const response = axios.post("http://localhost:8000/api/v1/users/login",formData);
+            console.log(response);
+            navigate("/");
+            // dispatch(loginSuccess(response));
+          } catch (error) {
+            console.log(error);
+          }
+        
+    }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Form Data:', formData);
-    };
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="">
+      <Input
+        type="text"
+        placeholder="Enter your username"
+        name="username"
+        label="username"
+        {...register("username", { required: true })}
+      />
+      <Input
+        type="email"
+        placeholder="Enter your email"
+        name="email"
+        label="email"
+        {...register("email", { required: true })}
+      />
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <input type="text" placeholder='Enter your username' name='username' onChange={handleChange} value={formData.username} />
-            <input type="text" placeholder='Enter your email' name='email' onChange={handleChange} value={formData.email} />
-
-            <input type="password" placeholder='Enter your password' name='password' onChange={handleChange} value={formData.password} />
-            <button type="submit">Submit</button>
-        </form>
-    );
+      <Input
+        type="password"
+        placeholder="Enter your password"
+        name="password"
+        label="password"
+        {...register("password", { required: true })}
+      />
+      <Button
+        bgColor="bg-dark-1"
+        textColor="text-light-1"
+        type="submit"
+        className="w-full"
+      >
+        Submit
+      </Button>
+    </form>
+  );
 };

@@ -16,6 +16,7 @@ import {
 // import  Login  from './auth/Login';
 // import {AddVideo} from './screens/AddVideo';
 // import AddTweet from './screens/AddTweet';
+import { LoginComponent } from './component/LoginComponent';
 import RegisterComponent from './component/RegisterComponent';
 function App() {
  
@@ -28,6 +29,8 @@ function App() {
         {/* <Route exact path='/video' element={<VideoPlay/>}></Route> */}
         {/* <Route exact path ='/profile' element={<Profile/>}></Route> */}
         <Route exact path ='/register' element={<RegisterComponent/>}></Route>
+        <Route exact path ='/login' element={<LoginComponent/>}></Route>
+
         {/* <Route exact path ='/login' element={<Login/>}></Route> */}
         {/* <Route exact path ='/addVideo' element={<AddVideo/>}></Route> */}
         {/* <Route exact path ='/addTweet' element={<AddTweet/>}></Route> */}

@@ -10,7 +10,7 @@ const genrateAccessTokenAndRefreshToken = async (userId) => {
     const user = await User.findById(userId);
     const accessToken = user.genrateAccessToken();
     const refreshToken = user.genrateRefreshToken();
-    user.refreshToken = refreshToken;
+    user.refresToken = refreshToken;
     await user.save({ validateBeforSave: false });
     return { accessToken, refreshToken };
   } catch (error) {

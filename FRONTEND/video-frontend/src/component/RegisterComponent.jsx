@@ -9,9 +9,8 @@ const RegisterComponent = () => {
   const [error, setError] = useState("");
   const [avatarPrev, setAvatarPrev] = useState(null);
   const [coverImagePrev, setCoverImagePrev] = useState(null);
-  const [fullname, setFullname] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
+
+
   const navigate = useNavigate();
   const { register, handleSubmit,formState: { errors }, } = useForm();
 
@@ -29,6 +28,7 @@ const dispatch=useDispatch();
     try {
       const response = axios.post("http://localhost:8000/api/v1/users/register",formData);
       console.log(response);
+      navigate("/");
       // dispatch(loginSuccess(response));
     } catch (error) {
       console.log(error);
