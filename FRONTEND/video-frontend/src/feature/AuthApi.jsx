@@ -3,8 +3,9 @@ import axios from 'axios';
 
 
 export const useRegisterUser = async (data) => {
+    console.log(import.meta.VITE_BACKEND_URL)
             try {
-                const response = await axios.post(`${import.meta.VITE_BACKEND_URL}users/register`, data, {
+                const response = await axios.post(`http://localhost:8000/api/v1/users/register`, data, {
                     headers: {
                         "Content-Type": "multipart/form-data",
                     },

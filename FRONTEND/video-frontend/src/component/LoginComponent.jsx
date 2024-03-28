@@ -13,16 +13,16 @@ export const LoginComponent = () => {
   });
   const { register, handleSubmit } = useForm();
 
-    const onSubmit = (data) => {
+    const onSubmit = async(data) => {
         setFormData({
           username: data.username,
           email: data.email,
           password: data.password,
         });
         try {
-            const response = axios.post("http://localhost:8000/api/v1/users/login",formData);
+            const response = await axios.post("http://localhost:8000/api/v1/users/login",formData);
             console.log(response);
-            navigate("/");
+            // navigate("/");
             // dispatch(loginSuccess(response));
           } catch (error) {
             console.log(error);

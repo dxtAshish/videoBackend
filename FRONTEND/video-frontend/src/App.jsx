@@ -18,6 +18,7 @@ import {
 // import AddTweet from './screens/AddTweet';
 import { LoginComponent } from './component/LoginComponent';
 import RegisterComponent from './component/RegisterComponent';
+import FileUploader from './component/FileUploader';
 function App() {
  
 
@@ -30,6 +31,8 @@ function App() {
         {/* <Route exact path ='/profile' element={<Profile/>}></Route> */}
         <Route exact path ='/register' element={<RegisterComponent/>}></Route>
         <Route exact path ='/login' element={<LoginComponent/>}></Route>
+        <Route exact path ='/' element={<FileUploader/>}></Route>
+
 
         {/* <Route exact path ='/login' element={<Login/>}></Route> */}
         {/* <Route exact path ='/addVideo' element={<AddVideo/>}></Route> */}

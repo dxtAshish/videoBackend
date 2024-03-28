@@ -4,6 +4,7 @@ import { Input, Button, Loader } from "./Index";
 import { useForm } from "react-hook-form";
 import { loginSuccess } from "../slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useRegisterUser } from "../feature/AuthApi";
 import axios from "axios";
 const RegisterComponent = () => {
   const [error, setError] = useState("");
@@ -26,9 +27,11 @@ const dispatch=useDispatch();
     formData.append("password", data.password);
 
     try {
-      const response = axios.post("http://localhost:8000/api/v1/users/register",formData);
+      const response = await axios.post("http://localhost:8000/api/v1/users/register",formData);
+      //  const response = useRegisterUser(formData);
+
       console.log(response);
-      navigate("/");
+      // navigate("/");
       // dispatch(loginSuccess(response));
     } catch (error) {
       console.log(error);
@@ -102,10 +105,11 @@ const dispatch=useDispatch();
           <Input
             label="fullname"
             type="text"
-            name="fullname"
-            {...register("fullname", { required: true })}
+            name="fullName"
+            {...register("fullName", { required: true })}
           />
           <Input
+            label="username"
             type="username"
             name="username"
             {...register("username", { required: true })}

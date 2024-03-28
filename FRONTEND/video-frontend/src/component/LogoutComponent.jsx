@@ -1,10 +1,11 @@
 import React from 'react'
 import Button from './Button'
-import axios from 'axios'
+
+import { useLogoutUser } from '../feature/AuthApi'
 const LogoutComponent = () => {
     const handelLogout=(e)=>{
 e.preventDefault();
-     const response=axios.post("http://localhost:8000/api/v1/users/logout")
+     const response=useLogoutUser();
      console.log(response);
     }
   return (

@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { Button } from "./index";
+import { Button } from "./Index";
 import { useDropzone } from "react-dropzone";
 import { ArrowUpTrayIcon } from "@heroicons/react/24/solid";
 
