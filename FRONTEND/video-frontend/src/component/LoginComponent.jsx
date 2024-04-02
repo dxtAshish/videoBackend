@@ -22,8 +22,6 @@ export const LoginComponent = () => {
         try {
             const response = await axios.post("http://localhost:8000/api/v1/users/login",formData);
             console.log(response);
-            // navigate("/");
-            // dispatch(loginSuccess(response));
           } catch (error) {
             console.log(error);
           }

@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { Button } from "./Index";
 import { useDropzone } from "react-dropzone";
 import { ArrowUpTrayIcon } from "@heroicons/react/24/solid";
+import VideoCard from "./VideoCard";
 
 const FileUploader = ({ fieldChange, mediaUrl, action }) => {
   const [file, setFile] = useState([]);
@@ -10,7 +11,7 @@ const FileUploader = ({ fieldChange, mediaUrl, action }) => {
   const onDrop = useCallback(
     (acceptedFiles) => {
       setFile(acceptedFiles);
-      fieldChange(acceptedFiles);
+      fieldCgihange(acceptedFiles);
       setFileUrl(URL.createObjectURL(acceptedFiles[0]));
     },
     [file]
@@ -53,6 +54,7 @@ const FileUploader = ({ fieldChange, mediaUrl, action }) => {
           </Button>
         </div>
       )}
+      <VideoCard/>
     </div>
   );
 };
