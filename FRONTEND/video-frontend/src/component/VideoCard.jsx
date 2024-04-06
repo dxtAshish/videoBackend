@@ -21,6 +21,7 @@ const VideoCard = () => {
         <h1 className='text-white font-sm'>269k: view</h1>
       </div>
     </div>
+    
   )
 }
 
