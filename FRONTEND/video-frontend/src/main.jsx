@@ -11,13 +11,14 @@ import {
 
 
 import './index.css'
+import { SideBar } from './component/SideBar.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
      <Provider store={store}>
     <Router>
-   <Navbar/>
-    <App />
+<SideBar/>
+    {/* <App /> */}
     </Router>
     </Provider>
   </React.StrictMode>,
