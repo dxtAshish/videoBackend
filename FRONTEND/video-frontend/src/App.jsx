@@ -20,6 +20,7 @@ import Home from './screens/Home';
 import { LoginComponent } from './component/LoginComponent';
 import RegisterComponent from './component/RegisterComponent';
 import FileUploader from './component/FileUploader';
+import { VideoUpload } from './screens/VideoUpload';
 function App() {
  
 
@@ -36,6 +37,8 @@ function App() {
         <Route exact path ='/home' element={<Home/>}></Route>
         <Route exact path ='/home' element={<Home/>}></Route>
         <Route exact path ='/play' element={<VideoPlay/>}></Route>
+        <Route exact path ='/video' element={<VideoUpload/>}></Route>
+
 
 
       
