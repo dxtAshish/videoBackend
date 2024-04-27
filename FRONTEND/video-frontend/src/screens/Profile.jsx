@@ -1,7 +1,15 @@
 import React from 'react'
 import VideoCard from '../component/VideoCard'
 import vite from '/vite.svg'
+import { useNavigate } from 'react-router-dom'
 export const Profile = () => {
+  
+ const navigate=useNavigate()
+
+  const handleEditClick = () => {
+    navigate('/editProfile')
+  };
+
   const videos=[{
     title:"this is video"
   },
@@ -47,7 +55,7 @@ export const Profile = () => {
             <h1 className='lg:text-3xl text-xl underline  font-bold'>Ashish dixit</h1>
             <h1 className=' lg:text-xl text-lg font-medium'> @ashishdxt</h1>
             <h1 className='lg:text-lg text-md font-medium'>subscriber :1m</h1>
-            <button className=' bg-[#d3d3c1] flex py-1 text-center w-[60px] rounded-lg justify-center'>Edit</button>
+            <button className=' bg-[#d3d3c1] flex py-1 text-center w-[60px] rounded-lg justify-center' onClick={handleEditClick}>Edit</button>
           </div>
         </div>
         
